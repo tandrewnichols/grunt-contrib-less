@@ -65,7 +65,7 @@ module.exports = function(grunt) {
                 sourceMapFilename = destFile + '.map';
               }
               grunt.file.write(sourceMapFilename, output.map);
-              grunt.log.writeln('File ' + chalk.cyan(options.sourceMapFilename) + ' created.');
+              grunt.log.writeln('File ' + chalk.cyan(sourceMapFilename) + ' created.');
             }
             process.nextTick(next);
           },
@@ -108,6 +108,10 @@ module.exports = function(grunt) {
       } catch (e) {
         grunt.fail.warn(wrapError(e, 'Generating sourceMapBasepath failed.'));
       }
+    }
+
+    if (typeof options.sourceMapURL === 'function') {
+      options.sourceMapURL = options.sourceMapURL(destFile);
     }
 
     if (typeof(options.sourceMap) === "boolean" && options.sourceMap) {
